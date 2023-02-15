@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="login">
+      <h1>Login</h1>
+      <form action="authenticate.php" method="post">
+        <!--Verweis auf die Methode "post" im authenticate.php Dokument -->
+        <label for="username">
+          <i class="fas fa-user"></i>
+          <!--definiert Label für User-Icon-->
+        </label>
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          id="username"
+          required
+        />
+        <!--kreiert Inputfeld für Eingabe des Usernamen mit dem Typ "text",dem Namen "username", der benötigten ID "username" und dem Verweis auf die Art des Inputfelds "Username"-->
+        <label for="password">
+          <i class="fas fa-lock"></i
+          ><!--definiert Label für Passwort-Icon-->
+        </label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Passwort"
+          id="password"
+          required
+        /><!--kreiert Inputfeld mit Verweis "Passwort", vom Typ "password", mit dem Namen "password" und der benötigten ID "password"-->
+        <input type="submit" value="Login" />
+        <!--erstellung eines Login-Buttons, um das Befüllen der Input-Buttons zu bestätigen-->
+        <a href="registrierung.html" target="_self">Jetzt registrieren!</a> <!--Link zur Registrierung, falls man noch keinen Account angelegt hat-->
+      </form>
+    </div>
+  </body>
+</html>
