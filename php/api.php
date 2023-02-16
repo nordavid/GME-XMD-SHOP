@@ -7,35 +7,68 @@ $pathComponents = explode('/', $requestUri);
 $endpoint = array_slice($pathComponents, array_search(basename(__FILE__), $pathComponents) + 1)[0];
 $endpoint = strtok($endpoint, '?');
 
-$data = json_decode(file_get_contents('php://input'), true);
-echo  json_encode($data);
-exit;
+switch ($_SERVER['REQUEST_METHOD']) {
+    case 'GET':
+        handlePostRequest($endpoint, $_GET);
+        break;
+    case 'POST':
+        handlePostRequest($endpoint, $_POST);
+        break;
+    default:
+        die(errorMsg("Ungültige Request-Methode"));
+        break;
+}
 
 // API routes
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $parameters = $_GET;
-    if ($endpoint == 'users') {
+    if ($endpoint == 'players') {
         $id = $parameters['id'];
-        $user = getUser($id);
-        echo json_encode($user);
+        $player = getPlayer($id);
+        echo json_encode($player);
     }
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    //$json = file_get_contents('php://input');
+    //$parameters = json_decode($json, true);
     $parameters = $_POST;
-    if ($endpoint == 'users') {
+    if ($endpoint == 'players') {
         $id = $parameters['id'];
-        $user = getUser($id);
-        echo json_encode($user);
+        $player = getPlayer($id);
+        if ($player) {
+            echo successMsg($player);
+        } else {
+            echo errorMsg("Spieler nicht gefunden!");
+        }
     }
 }
 
-function getUser($id)
+function handleGetRequest($endpoint, $params)
 {
-    // Your code to get user information
-    $user = array(
-        'id' => $id,
-        'name' => 'John Doe',
-        'email' => 'john.doe@example.com'
-    );
-    return $user;
+    switch ($endpoint) {
+        case 'players':
+            # code...
+            break;
+
+        default:
+            # code...
+            break;
+    }
+}
+
+function handlePostRequest($endpoint, $params)
+{
+}
+
+function getPlayer($id)
+{
+    global $conn;
+    $sql = "SELECT * FROM player WHERE player.id = ?;";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        return $result->fetch_assoc();
+    } else return null;
 }

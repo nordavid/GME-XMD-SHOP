@@ -22,7 +22,7 @@
     <div id="error-container"></div>
     <form id="entity-id-form">
         <label>ID:</label>
-        <input type="number" name="entityId" required>
+        <input type="number" name="id" required>
         <button type="submit">Test</button>
     </form>
 
@@ -43,13 +43,11 @@
 
             const userId = 123;
 
-            fetch(`./php/api.php/users?id=${userId}`, {
+            fetch(`./php/api.php/players?id=${userId}`, {
                     method: 'POST',
-                    body: JSON.stringify({
-                        id: 123
-                    })
+                    body: formData
                 })
-                .then(response => response.text())
+                .then(response => response.json())
                 .then(data => console.log(data))
                 .catch(error => console.error(error));
         });
