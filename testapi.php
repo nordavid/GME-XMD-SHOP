@@ -31,23 +31,21 @@
 
         const form = document.getElementById('entity-id-form');
 
-        // Attach a submit event listener to the form
         form.addEventListener('submit', (event) => {
-            // Prevent the default form submission behavior
             event.preventDefault();
 
-            // Get the form data
             const formData = new FormData(form);
-
-            console.log(formData);
-
             const userId = 123;
 
-            fetch(`./php/api.php/players?id=${userId}`, {
+            fetch(`./php/api.php/account/register?id=${userId}`, {
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.json())
+                .then(response => {
+                    console.log(response.status);
+                    if (response.status === 200) return response.json();
+                    else throw new Error("HTTP status " + response.status);
+                })
                 .then(data => console.log(data))
                 .catch(error => console.error(error));
         });
