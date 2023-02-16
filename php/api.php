@@ -2,62 +2,53 @@
 require_once('./init.php');
 header('Content-Type: application/json');
 
-$requestUri = $_SERVER['REQUEST_URI'];
-$pathComponents = explode('/', $requestUri);
-$endpoint = array_slice($pathComponents, array_search(basename(__FILE__), $pathComponents) + 1)[0];
-$endpoint = strtok($endpoint, '?');
+//$json = file_get_contents('php://input');
+//$parameters = json_decode($json, true);
 
-switch ($_SERVER['REQUEST_METHOD']) {
-    case 'GET':
-        handlePostRequest($endpoint, $_GET);
-        break;
-    case 'POST':
-        handlePostRequest($endpoint, $_POST);
-        break;
-    default:
-        die(errorMsg("Ungültige Request-Methode"));
-        break;
-}
+$endpoints = [
+    'account/register' => ['handler' => 'registerHandler', 'method' => 'POST'],
+    'account/login' => ['handler' => 'loginHandler', 'method' => 'POST'],
+    'player/info' => ['handler' => 'playerInfoHandler', 'method' => 'GET'],
+    'entity/items' => ['handler' => 'entityItemsHandler', 'method' => 'GET'],
+    'shop/item' => ['handler' => 'itemGetHandler', 'method' => 'GET'],
+    'shop/item/buy' => ['handler' => 'itemBuyHandler', 'method' => 'POST'],
+    'shop/item/sell' => ['handler' => 'itemSellHandler', 'method' => 'POST'],
+    'shop/item/add' => ['handler' => 'itemAddHandler', 'method' => 'POST']
+];
 
-// API routes
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $parameters = $_GET;
-    if ($endpoint == 'players') {
-        $id = $parameters['id'];
-        $player = getPlayer($id);
-        echo json_encode($player);
+$endpoint = ltrim($_SERVER['PATH_INFO'], "/");
+
+if (array_key_exists($endpoint, $endpoints)) {
+    $handler = $endpoints[$endpoint]['handler'];
+    $method = $endpoints[$endpoint]['method'];
+
+    if ($_SERVER['REQUEST_METHOD'] === $method) {
+        $params = ($method === 'GET' ? $_GET : $_POST);
+        call_user_func($handler, $params);
+    } else {
+        http_response_code(405);
+        echo errorMsg("Request-Methode nicht erlaubt");
     }
-}
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    //$json = file_get_contents('php://input');
-    //$parameters = json_decode($json, true);
-    $parameters = $_POST;
-    if ($endpoint == 'players') {
-        $id = $parameters['id'];
-        $player = getPlayer($id);
-        if ($player) {
-            echo successMsg($player);
-        } else {
-            echo errorMsg("Spieler nicht gefunden!");
-        }
-    }
+} else {
+    http_response_code(404);
 }
 
-function handleGetRequest($endpoint, $params)
+function registerHandler($params)
 {
-    switch ($endpoint) {
-        case 'players':
-            # code...
-            break;
-
-        default:
-            # code...
-            break;
-    }
+    echo json_encode($params);
 }
 
-function handlePostRequest($endpoint, $params)
+function playerInfoHandler($params)
 {
+    global $conn;
+    $sql = "SELECT * FROM player WHERE player.id = ?;";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $params['id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        return json_encode($result->fetch_assoc());
+    } else return [];
 }
 
 function getPlayer($id)
