@@ -79,10 +79,13 @@
                 <label>Stat Type:</label>
                 <select name="stat_type[]" required>
                     <option value="Hp">Hp</option>
-                    <option value="Armor">Armor</option>
-                    <option value="Damage">Damage</option>
-                    <option value="Speed">Speed</option>
-                    <option value="Strength">Strength</option>
+                    <option value="Armor">Rüstung</option>
+                    <option value="Damage">Schaden</option>
+                    <option value="Speed">Geschwindigkeit</option>
+                    <option value="Strength">Stärke</option>
+                    <option value="Charism">Charisma</option>
+                    <option value="Intelligence">Intelligenz</option>
+                    <option value="Skill">Skill</option>
                 </select>
                 <label>Value:</label>
                 <input type="number" name="value[]" required>

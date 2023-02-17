@@ -1,7 +1,5 @@
 <?php
-include_once("./util/error_handling.php");
-
-function uploadFile($formFileName, $subFolder, $newFileName, $maxMb = 3)
+function uploadFile($formFileName, $uploadsSubDir, $newFileName, $maxMb = 3)
 {
 
     if (!isset($_FILES[$formFileName])) {
@@ -31,7 +29,7 @@ function uploadFile($formFileName, $subFolder, $newFileName, $maxMb = 3)
     }
 
     $extension = $allowedTypes[$filetype];
-    $targetDirectory = dirname(__DIR__, 2) . "/uploads" . "/" . $subFolder;
+    $targetDirectory = dirname(__DIR__, 2) . "/uploads" . "/" . $uploadsSubDir;
 
     $newFilepath = $targetDirectory . "/" . $newFileName . "." . $extension;
 
@@ -39,5 +37,5 @@ function uploadFile($formFileName, $subFolder, $newFileName, $maxMb = 3)
         throw new Exception("Die Datei konnte nicht hochgeladen werden");
     }
 
-    return $subFolder . "/" . $newFileName . "." . $extension;
+    return $uploadsSubDir . "/" . $newFileName . "." . $extension;
 }
