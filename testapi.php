@@ -35,18 +35,21 @@
             event.preventDefault();
 
             const formData = new FormData(form);
-            const userId = 123;
+            const userId = formData.get("id");
+            console.log(userId);
 
-            fetch(`./php/api.php/account/register?id=${userId}`, {
-                    method: 'POST',
-                    body: formData
-                })
+            fetch(`./php/api.php/shop/item/properties?id=${userId}`)
                 .then(response => {
-                    console.log(response.status);
-                    if (response.status === 200) return response.json();
+                    if (response.ok) return response.json();
                     else throw new Error("HTTP status " + response.status);
                 })
-                .then(data => console.log(data))
+                .then(data => {
+                    if (!data.error) {
+                        document.getElementById("error-container").innerText = JSON.stringify(data.payload);
+                    } else {
+                        document.getElementById("error-container").innerText = data.message;
+                    }
+                })
                 .catch(error => console.error(error));
         });
     </script>

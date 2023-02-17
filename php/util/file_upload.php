@@ -31,7 +31,7 @@ function uploadFile($formFileName, $subFolder, $newFileName, $maxMb = 3)
     }
 
     $extension = $allowedTypes[$filetype];
-    $targetDirectory = dirname(__DIR__, 1) . "/uploads" . "/" . $subFolder;
+    $targetDirectory = dirname(__DIR__, 2) . "/uploads" . "/" . $subFolder;
 
     $newFilepath = $targetDirectory . "/" . $newFileName . "." . $extension;
 

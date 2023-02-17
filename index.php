@@ -107,14 +107,14 @@
 
             console.log(formData);
 
-            const url = './php/add_item.php'
+            const url = './php/api.php/shop/item/add'
             const request = new Request(url, {
                 method: 'POST',
                 body: formData
             });
 
             fetch(request)
-                .then(response => response.json())
+                .then(response => response.text())
                 .then(data => {
                     console.log(data);
                     document.getElementById("error-container").innerHTML = data.message;
