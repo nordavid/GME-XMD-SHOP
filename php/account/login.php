@@ -8,7 +8,7 @@ function loginHandler($params)
     }
 
     try {
-        $stmt = $conn->prepare('SELECT  id, username, password, is_admin FROM player WHERE username = :username');
+        $stmt = $conn->prepare('SELECT  id, entity_id, username, password, is_admin FROM player WHERE username = :username');
         $stmt->bindParam(":username", $params['username'], PDO::PARAM_STR);
         $stmt->execute();
         if ($stmt->rowCount() == 0) {
@@ -36,6 +36,7 @@ function loginHandler($params)
             }
             // logged in
             $_SESSION['isLoggedIn'] = true;
+            $_SESSION['playerEntId'] = $result['entity_id'];
             $_SESSION['playerId'] = $result['id'];
             $_SESSION['isAdmin'] = $result['is_admin'];
             exit(successMsg("Erfolgreich eingeloggt"));
