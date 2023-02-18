@@ -25,10 +25,21 @@ function registerHandler($params)
         die(errorMsg("E-Mail Adresse wird bereits verwendet"));
     }
 
+    $entityType = "Player";
     try {
+        $stmt = $conn->prepare("INSERT INTO entity (type) VALUES (:entityType)");
+        $stmt->bindParam(":entityType", $entityType, PDO::PARAM_STR);
+        $stmt->execute();
+    } catch (PDOException $e) {
+        die(errorMsg());
+    }
+
+    try {
+        $entityId = $conn->lastInsertId();
         $password = password_hash($params['password'], PASSWORD_DEFAULT);
 
-        $stmt = $conn->prepare("INSERT INTO player (username, password, email) VALUES (:username, :password, :email)");
+        $stmt = $conn->prepare("INSERT INTO player (entity_id, username, password, email) VALUES (:entityId, :username, :password, :email)");
+        $stmt->bindParam(":entityId", $entityId, PDO::PARAM_STR);
         $stmt->bindParam(":username", $params['username'], PDO::PARAM_STR);
         $stmt->bindParam(":password", $password, PDO::PARAM_STR);
         $stmt->bindParam(":email", $params['email'], PDO::PARAM_STR);
@@ -36,7 +47,7 @@ function registerHandler($params)
             $_SESSION['isLoggedIn'] = true;
             $_SESSION['playerId'] = $conn->lastInsertId();
             $_SESSION['isAdmin'] = false;
-            exit(successMsg("Erfolgreich eingeloggt"));
+            exit(successMsg("Erfolgreich registriert"));
         } else {
             throw new PDOException("Fehler bei Registrierung");
         }
@@ -70,7 +81,7 @@ function isUsernameUsed($username)
 
     try {
         $stmt = $conn->prepare('SELECT id FROM player WHERE username = :username;');
-        $stmt->bindParam(":email", $username, PDO::PARAM_STR);
+        $stmt->bindParam(":username", $username, PDO::PARAM_STR);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
