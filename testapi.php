@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['isLoggedIn'])) {
+    header('Location: index.html');
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -38,9 +46,11 @@
             const userId = formData.get("id");
             console.log(userId);
 
-            fetch(`./php/api.php/shop/item/properties?id=${userId}`)
+            fetch(`./php/api.php/shop/item/properties`, {
+                    method: "POST"
+                })
                 .then(response => {
-                    if (response.ok) return response.json();
+                    if (response.ok) return response.text();
                     else throw new Error("HTTP status " + response.status);
                 })
                 .then(data => {

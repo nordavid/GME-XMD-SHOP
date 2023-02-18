@@ -45,6 +45,7 @@ function registerHandler($params)
         $stmt->bindParam(":email", $params['email'], PDO::PARAM_STR);
         if ($stmt->execute()) {
             $_SESSION['isLoggedIn'] = true;
+            $_SESSION['playerEntId'] = $entityId;
             $_SESSION['playerId'] = $conn->lastInsertId();
             $_SESSION['isAdmin'] = false;
             exit(successMsg("Erfolgreich registriert"));
