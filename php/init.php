@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('./util/return_msg.php');
+require_once('./util/json_output.php');
 
 $servername = "localhost";
 $username = "admin";

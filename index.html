@@ -2,12 +2,11 @@
   <head>
     <meta charset="utf-8" />
     <title>Login</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <div class="login">
       <h1>Login</h1>
-      <form action="authenticate.php" method="post">
+      <form id="login-form" method="post">
         <!--Verweis auf die Methode "post" im authenticate.php Dokument -->
         <label for="username">
           <i class="fas fa-user"></i>
@@ -37,5 +36,29 @@
         <a href="registrierung.html" target="_self">Jetzt registrieren!</a> <!--Link zur Registrierung, falls man noch keinen Account angelegt hat-->
       </form>
     </div>
+
+    <script>
+      const form = document.getElementById("login-form"); 
+      form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+
+            console.log(formData);
+
+            const request = new Request('./php/api.php/account/login', {
+                method: 'POST',
+                body: formData
+            });
+
+            fetch(request)
+                .then(response => response.text())
+                .then(data => {
+
+                    console.log(data);
+
+                })
+                .catch(error => console.error("Error: ", error));
+        });
+    </script>
   </body>
 </html>
