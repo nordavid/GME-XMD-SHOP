@@ -7,9 +7,10 @@ function itemAddHandler($params)
 
     // Get next item id for image upload
     $itemId = 1;
-    $result = $conn->query("SHOW TABLE STATUS LIKE 'item'");
-    if ($result->rowCount() > 0) {
-        $row = $result->fetch(PDO::FETCH_ASSOC);
+    $stmt = $conn->query("SHOW TABLE STATUS LIKE 'item'");
+    $stmt->execute();
+    if ($stmt->rowCount() > 0) {
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $itemId = $row['Auto_increment'];
     }
 
@@ -25,11 +26,11 @@ function itemAddHandler($params)
     try {
         $sql = "INSERT INTO item (name, rarity, description, cost, image) VALUES (:name, :rarity, :description, :cost, :image)";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':name', $params['itemname']);
-        $stmt->bindParam(':rarity', $params['rarity']);
-        $stmt->bindParam(':description', $params['description']);
-        $stmt->bindParam(':cost', $params['cost']);
-        $stmt->bindParam(':image', $imgPath);
+        $stmt->bindParam(':name', $params['itemname'], PDO::PARAM_STR);
+        $stmt->bindParam(':rarity', $params['rarity'], PDO::PARAM_STR);
+        $stmt->bindParam(':description', $params['description'], PDO::PARAM_STR);
+        $stmt->bindParam(':cost', $params['cost'], PDO::PARAM_INT);
+        $stmt->bindParam(':image', $imgPath, PDO::PARAM_STR);
         $stmt->execute();
     } catch (PDOException $e) {
         die(errorMsg("Fehler bei dem Versuch Item hinzuzufügen: " . $e->getMessage()));
@@ -72,11 +73,11 @@ function addPropsToItem($itemId, $props)
         $value = $props[$i]['value'];
         try {
             $stmt = $conn->prepare("INSERT INTO item_property (item_id, name, property_type, stat_type, value) VALUES (:id, :name, :propType, :statType, :value)");
-            $stmt->bindParam(':id', $itemId);
-            $stmt->bindParam(':name', $property_name);
-            $stmt->bindParam(':propType', $property_type);
-            $stmt->bindParam(':statType', $stat_type);
-            $stmt->bindParam(':value', $value);
+            $stmt->bindParam(':id', $itemId, PDO::PARAM_INT);
+            $stmt->bindParam(':name', $property_name, PDO::PARAM_STR);
+            $stmt->bindParam(':propType', $property_type, PDO::PARAM_STR);
+            $stmt->bindParam(':statType', $stat_type, PDO::PARAM_STR);
+            $stmt->bindParam(':value', $value, PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
             echo $e->getMessage();

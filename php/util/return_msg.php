@@ -1,5 +1,5 @@
 <?php
-function errorMsg($message)
+function errorMsg($message = "Es ist ein Fehler aufgetreten")
 {
     return json_encode([
         "status" => "error",

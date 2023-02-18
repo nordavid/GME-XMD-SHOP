@@ -20,7 +20,7 @@ $endpoint = ltrim($_SERVER['PATH_INFO'], "/");
 if (array_key_exists($endpoint, $endpoints)) {
     $handler = $endpoints[$endpoint]['handler'];
     $method = $endpoints[$endpoint]['method'];
-    require_once("./$endpoint.php");
+    //require_once("./$endpoint.php");
 
     if ($_SERVER['REQUEST_METHOD'] === $method) {
         $params = ($method === 'GET' ? $_GET : $_POST);
@@ -45,7 +45,7 @@ function playerInfoHandler($params)
         global $conn;
         $sql = "SELECT * FROM player WHERE player.id = :id LIMIT 1;";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(":id", $params['id']);
+        $stmt->bindParam(":id", $params['id'], PDO::PARAM_INT);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($result) {
@@ -67,7 +67,7 @@ function entityItemsHandler($params)
                 WHERE entity.id = :id;";
 
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(":id", $params["id"]);
+        $stmt->bindParam(":id", $params["id"], PDO::PARAM_INT);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -92,7 +92,7 @@ function itemPropsHandler($params)
                 WHERE item.id = :id;";
 
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(":id", $params["id"]);
+        $stmt->bindParam(":id", $params["id"], PDO::PARAM_INT);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
