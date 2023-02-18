@@ -63,6 +63,12 @@ if (!isset($_SESSION['isLoggedIn'])) {
     <form id="add-item-form" action="add_item.php" method="POST" enctype="multipart/form-data">
         <label>Item Name:</label>
         <input type="text" name="itemname" required>
+        <label>Category:</label>
+        <select name="category" required>
+            <option value="Weapon">Waffe</option>
+            <option value="Armor">Rüstung</option>
+            <option value="Spaceship">Raumschiff</option>
+        </select>
         <label>Rarity:</label>
         <select name="rarity" required>
             <option value="Common">Common</option>
@@ -78,14 +84,14 @@ if (!isset($_SESSION['isLoggedIn'])) {
         <div id="item-properties">
             <div class="item-property">
                 <label>Property Name:</label>
-                <input type="text" name="property_name[]" required>
+                <input type="text" name="prop_names[]" required>
                 <label>Property Type:</label>
-                <select name="property_type[]" required>
+                <select name="prop_types[]" required>
                     <option value="Playerstats">Playerstats</option>
                     <option value="Buff">Buff</option>
                 </select>
                 <label>Stat Type:</label>
-                <select name="stat_type[]" required>
+                <select name="prop_stat_types[]" required>
                     <option value="Hp">Hp</option>
                     <option value="Armor">Rüstung</option>
                     <option value="Damage">Schaden</option>
@@ -96,7 +102,7 @@ if (!isset($_SESSION['isLoggedIn'])) {
                     <option value="Skill">Skill</option>
                 </select>
                 <label>Value:</label>
-                <input type="number" name="value[]" required>
+                <input type="number" name="prop_values[]" required>
             </div>
         </div>
         <button type="button" id="add-property-button">Add Property</button>

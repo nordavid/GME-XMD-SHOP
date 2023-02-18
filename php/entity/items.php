@@ -1,5 +1,5 @@
 <?php
-function entityItemsHandler($params)
+function entityItemsHandler($id)
 {
     try {
         global $conn;
@@ -10,15 +10,14 @@ function entityItemsHandler($params)
                 WHERE entity.id = :id;";
 
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(":id", $params["id"], PDO::PARAM_INT);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo returnData($result);
         } else {
-            $id = $params["id"];
-            echo errorMsg("Keine Items für ID: $id gefunden");
+            echo errorMsg("Keine Items für Entity ID: $id gefunden");
         }
     } catch (PDOException $e) {
         echo errorMsg($e->getMessage());

@@ -1,5 +1,5 @@
 <?php
-function itemPropsHandler($params)
+function itemPropsHandler($id)
 {
     try {
         global $conn;
@@ -9,14 +9,14 @@ function itemPropsHandler($params)
                 WHERE item.id = :id;";
 
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(":id", $params["id"], PDO::PARAM_INT);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo returnData($result);
         } else {
-            $id = $params["id"];
+            $id = $id;
             echo errorMsg("Keine Properties für Item-ID: $id gefunden");
         }
     } catch (PDOException $e) {

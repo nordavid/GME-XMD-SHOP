@@ -1,27 +1,27 @@
 <?php
 require_once('./util/input_validation.php');
 
-function registerHandler($params)
+function registerHandler($username, $email, $password)
 {
     global $conn;
 
-    if (!isValidUsername($params['username'])) {
+    if (!isValidUsername($username)) {
         die(errorMsg("Username hat falsches Format"));
     }
 
-    if (!isValidEmail($params['email'])) {
+    if (!isValidEmail($email)) {
         die(errorMsg("E-Mail Adresse hat falsches Format"));
     }
 
-    if (!isValidPassword($params['password'], 6, 30)) {
+    if (!isValidPassword($password, 6, 30)) {
         die(errorMsg("Das Passwort muss zwischen 6 und 30 Zeichen lang sein"));
     }
 
-    if (isUsernameUsed($params['username'])) {
+    if (isUsernameUsed($username)) {
         die(errorMsg("Username bereits vergeben"));
     }
 
-    if (isEmailUsed($params['email'])) {
+    if (isEmailUsed($email)) {
         die(errorMsg("E-Mail Adresse wird bereits verwendet"));
     }
 
@@ -36,13 +36,13 @@ function registerHandler($params)
 
     try {
         $entityId = $conn->lastInsertId();
-        $password = password_hash($params['password'], PASSWORD_DEFAULT);
+        $password = password_hash($password, PASSWORD_DEFAULT);
 
         $stmt = $conn->prepare("INSERT INTO player (entity_id, username, password, email) VALUES (:entityId, :username, :password, :email)");
         $stmt->bindParam(":entityId", $entityId, PDO::PARAM_STR);
-        $stmt->bindParam(":username", $params['username'], PDO::PARAM_STR);
+        $stmt->bindParam(":username", $username, PDO::PARAM_STR);
         $stmt->bindParam(":password", $password, PDO::PARAM_STR);
-        $stmt->bindParam(":email", $params['email'], PDO::PARAM_STR);
+        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
         if ($stmt->execute()) {
             $_SESSION['isLoggedIn'] = true;
             $_SESSION['playerEntId'] = $entityId;
