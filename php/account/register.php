@@ -1,7 +1,7 @@
 <?php
 require_once('./util/input_validation.php');
 
-function registerHandler($username, $email, $password)
+function registerHandler($username, $email, $password, $startitems)
 {
     global $conn;
 
@@ -43,7 +43,12 @@ function registerHandler($username, $email, $password)
         $stmt->bindParam(":username", $username, PDO::PARAM_STR);
         $stmt->bindParam(":password", $password, PDO::PARAM_STR);
         $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+        echo "Startitems: " . $startitems;
         if ($stmt->execute()) {
+            if ($startitems == "true") {
+                givePlayerRandomItems($entityId, 3);
+            }
+
             $_SESSION['isLoggedIn'] = true;
             $_SESSION['playerEntId'] = $entityId;
             $_SESSION['playerId'] = $conn->lastInsertId();
@@ -54,6 +59,31 @@ function registerHandler($username, $email, $password)
         }
     } catch (PDOException $e) {
         die(errorMsg($e->getMessage()));
+    }
+}
+
+function givePlayerRandomItems($entityId, $numOfItems)
+{
+    global $conn;
+
+    try {
+        $stmt = $conn->prepare("SELECT id FROM item ORDER BY RAND() LIMIT :numOfItems");
+        $stmt->bindParam(":numOfItems", $numOfItems, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die(errorMsg($e->getMessage()));
+    }
+
+    for ($i = 0; $i < $numOfItems; $i++) {
+        try {
+            $stmt = $conn->prepare("INSERT INTO inventory (entity_id, item_id) VALUES (:entityId, :itemId)");
+            $stmt->bindParam(":entityId", $entityId, PDO::PARAM_INT);
+            $stmt->bindParam(":itemId", $result[$i]['id'], PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            die(errorMsg($e->getMessage()));
+        }
     }
 }
 

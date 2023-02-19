@@ -3,15 +3,15 @@ require_once('./init.php');
 header('Content-Type: application/json; charset=utf-8');
 
 $endpoints = [
-    'account/register' => ['handler' => 'registerHandler', 'method' => 'POST', 'params' => ['username', 'email', 'password']],
+    'account/register' => ['handler' => 'registerHandler', 'method' => 'POST', 'params' => ['username', 'email', 'password', 'startitems']],
     'account/login' => ['handler' => 'loginHandler', 'method' => 'POST', 'params' => ['username', 'password']],
     'account/logout' => ['handler' => 'logoutHandler', 'method' => 'POST', 'params' => []],
     'account/player' => ['handler' => 'playerInfoHandler', 'method' => 'POST', 'params' => ['id']],
     'entity/items' => ['handler' => 'entityItemsHandler', 'method' => 'GET', 'params' => ['id']],
     'shop/item' => ['handler' => 'itemInfoHandler', 'method' => 'GET', 'params' => ['id']],
     'shop/item/properties' => ['handler' => 'itemPropsHandler', 'method' => 'GET', 'params' => ['id']],
-    'shop/item/buy' => ['handler' => 'itemBuyHandler', 'method' => 'POST'],
-    'shop/item/sell' => ['handler' => 'itemSellHandler', 'method' => 'POST'],
+    'shop/item/buy' => ['handler' => 'itemBuyHandler', 'method' => 'POST', 'params' => ['id']],
+    'shop/item/sell' => ['handler' => 'itemSellHandler', 'method' => 'POST', 'params' => ['id', 'amount']],
     'shop/item/add' => ['handler' => 'itemAddHandler', 'method' => 'POST', 'params' => ['itemname', 'category', 'rarity', 'description', 'cost', 'prop_names', 'prop_types', 'prop_stat_types', 'prop_values']]
 ];
 
@@ -32,7 +32,7 @@ if (array_key_exists($endpoint, $endpoints)) {
             } else {
                 // parameter missing = bad request
                 http_response_code(400);
-                die(errorMsg("Benötigter parameter fehlt: " . $param));
+                die(errorMsg("Notweniger Parameter fehlt: " . $param));
             }
         }
 

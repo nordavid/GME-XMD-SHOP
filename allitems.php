@@ -30,7 +30,7 @@ if (!isset($_SESSION['isLoggedIn'])) {
     <div id="error-container"></div>
     <form id="entity-id-form">
         <label>Items für Entity ID:</label>
-        <input type="number" name="entityId" required>
+        <input type="number" name="id" required>
         <button type="submit">Anzeigen</button>
     </form>
     <div id="item-container"></div>
@@ -50,16 +50,17 @@ if (!isset($_SESSION['isLoggedIn'])) {
 
             // Get the form data
             const formData = new FormData(form);
+            const entityId = formData.get("id");
 
             console.log(formData);
 
-            const url = './php/get_items_for_entity.php'
+            const url = `./php/api.php/entity/items?id=${entityId}`
             const request = new Request(url, {
                 method: 'POST',
                 body: formData
             });
 
-            fetch(request)
+            fetch(`./php/api.php/entity/items?id=${entityId}`)
                 .then(response => response.json())
                 .then(data => {
 

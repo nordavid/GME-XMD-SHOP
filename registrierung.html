@@ -27,6 +27,8 @@
                     <i class="fas fa-envelope"></i>
                 </label>
                 <input type="email" name="email" placeholder="E-Mail" id="email" required />
+                <input type="checkbox" id="start-items" name="startitems" checked />
+                <label for="start-items">Start Items</label>
                 <input type="submit" value="Registrieren" />
                 <!--Eingabebestätigung-->
             </form>
@@ -37,6 +39,8 @@
             form.addEventListener("submit", (event) => {
                 event.preventDefault();
                 const formData = new FormData(form);
+                const giveStartItems = document.getElementById("start-items").checked;
+                formData.set("startitems", giveStartItems);
 
                 console.log(formData);
 
