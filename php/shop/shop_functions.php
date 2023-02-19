@@ -1,13 +1,57 @@
 <?php
-function transferItems($fromEntId, $toEntId, $itemId, $amount)
+enum TransferType
 {
+    case ToPlayer;
+    case ToShop;
+}
+
+function transferItems($fromEntId, $toEntId, $itemId, $amount, TransferType $type)
+{
+    global $conn;
     $fromInvAmount = getInvAmount($fromEntId, $itemId);
 
+    // check if seller has enough items to transfer
     if ($fromInvAmount - $amount >= 0) {
+        // remove items from seller
         updateInvAmount($fromEntId, $itemId, -$amount);
-        updateInvAmount($toEntId, $itemId, $amount);
+
+        // check if reciever has item already in inventory
+        $stmt = $conn->prepare('SELECT amount FROM inventory WHERE entity_id = :entityId AND item_id = :itemId;');
+        $stmt->bindParam(":entityId", $toEntId, PDO::PARAM_INT);
+        $stmt->bindParam(":itemId", $itemId, PDO::PARAM_INT);
+        if (!$stmt->execute()) {
+            throw new Exception("Fehler bei Inventar-Abfrage");
+        }
+
+        if ($stmt->rowCount() > 0) {
+            // reciever has item already in inventory
+            updateInvAmount($toEntId, $itemId, $amount);
+        } else {
+            // add item to inventory
+            addItemsToInv($toEntId, $itemId, $amount);
+        }
+
+        // remove item from player inv if amount = 0
+        if ($type == TransferType::ToShop && $fromInvAmount - $amount == 0) {
+            deleteItemFromInv($fromEntId, $itemId);
+        }
     } else {
         throw new Exception("Nicht genug Items im Inventar");
+    }
+}
+
+function addItemsToInv($entityId, $itemId, $amount)
+{
+    global $conn;
+    try {
+        $sql = "INSERT INTO inventory (entity_id, item_id, amount) VALUES (:entityId, :itemId, :amount)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':entityId', $entityId, PDO::PARAM_INT);
+        $stmt->bindParam(':itemId', $itemId, PDO::PARAM_INT);
+        $stmt->bindParam(':amount', $amount, PDO::PARAM_INT);
+        $stmt->execute();
+    } catch (PDOException $e) {
+        die(errorMsg("Fehler: " . $e->getMessage()));
     }
 }
 
@@ -82,7 +126,7 @@ function getItemCost($itemId)
             throw new PDOException("Item konnte nicht gefunden werden");
         }
     } catch (PDOException $e) {
-        echo errorMsg($e->getMessage());
+        die(errorMsg($e->getMessage()));
     }
     return false;
 }
