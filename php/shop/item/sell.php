@@ -11,7 +11,7 @@ function itemSellHandler($itemId, $amount)
     $playerEntId = $_SESSION['playerEntId'];
 
     try {
-        transferItems($playerEntId, $shopEntId, $itemId, $amount);
+        transferItems($playerEntId, $shopEntId, $itemId, $amount, TransferType::ToShop);
     } catch (Exception $e) {
         die(errorMsg($e->getMessage()));
     }
