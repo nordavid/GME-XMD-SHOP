@@ -1,6 +1,7 @@
 <?php
 require_once("./php/check_login_status.php");
-$_SESSION['shopEntId'] = 2;
+require_once("./php/constants.php");
+$_SESSION['shopEntId'] = ARMOR_SHOP;
 ?>
 
 <!DOCTYPE html>
@@ -37,8 +38,16 @@ $_SESSION['shopEntId'] = 2;
         }
     </style>
     <script src="./js/script.js"></script>
+    <script src="./js/apiRequests.js"></script>
+    <script src="./js/shop.js"></script>
     <script>
-        window.addEventListener('load', initialisieren);
+        window.addEventListener('load', loadShop);
+
+        function loadShop() {
+            loadShopItems(<?php echo $_SESSION['playerEntId']; ?>, "sell-container", "Armor", "sell")
+            loadShopItems(<?php echo $_SESSION['shopEntId']; ?>, "buy-container", "Armor", "buy")
+            loadBalance(<?php echo $_SESSION['playerId']; ?>);
+        }
 
         function initialisieren() {
             // verlinke auf die anderen Händler
@@ -119,13 +128,13 @@ $_SESSION['shopEntId'] = 2;
             <figure class="figure_merchant">
                 <object type="image/svg+xml" data="img/merchant_3.svg" class="merchant_img" id="merchant_3"></object>
             </figure>
-            <p class="spruch">Du hast xx Erkies. Was willst du?</p>
+            <p class="spruch"><span>Du hast <span id="balance">0</span> Erkies. Was willst du?</span></p>
         </section>
 
         <button class="shopToggleButton" type="button">kaufen</button>
         <button class="shopToggleButton" type="button">verkaufen</button>
 
-        <section class="kaufen">
+        <section id="buy-container" class="kaufen">
             <!-- bitte Adresse und Name von jeweiligem item einfügen 
                 später soll hier evtl. srcset rein für die responsiven Grafiken, dafür müssen wir aber
                 erst die endgültigen Formate/Größen haben -->
@@ -158,7 +167,7 @@ $_SESSION['shopEntId'] = 2;
             </section>
         </section>
 
-        <section class="verkaufen">
+        <section id="sell-container" class="verkaufen">
             <!-- das ist ein Button, weil er in der Mobilansicht zum togglen da ist -->
 
             <!-- bitte Adresse und Name von jeweiligem item einfügen 

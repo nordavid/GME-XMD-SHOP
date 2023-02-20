@@ -20,10 +20,14 @@ require_once("./php/check_login_status.php");
         }
     </style>
     <script src="./js/script.js"></script>
+    <script src="./js/apiRequests.js"></script>
     <script>
         window.addEventListener('load', initialisieren);
 
         function initialisieren() {
+            getPlayerData(<?php echo $_SESSION['playerId']; ?>).then(playerData => {
+                document.getElementById("player-username").innerText = playerData.username;
+            })
             // füge Funktion hinzu, um Passwort ändern-Feld aufzuklappen
             let formPasswort = document.querySelector('.passwortAendern');
             let buttonAufklappen = document.querySelector('.account > button');
@@ -59,8 +63,8 @@ require_once("./php/check_login_status.php");
         <!-- bitte Nickname in die figcaption setzen-->
         <article class="account">
             <figure class="accountFigure">
-                <img src="img/avatar.jpg">
-                <figcaption>Username</figcaption>
+                <img src="./img/avatar_default.png">
+                <figcaption id="player-username">Username</figcaption>
             </figure>
             <button type="button">Passwort ändern</button>
             <!-- das Formfeld soll versteckt werden bis der Button gedrückt wird -->

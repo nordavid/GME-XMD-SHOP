@@ -109,17 +109,13 @@ if (!isset($_SESSION['isLoggedIn'])) {
         <input type="submit" value="Submit">
     </form>
 
-    <a href="./allitems.php">Item Liste</a>
+    <a href="./index.php">Home</a>
 
     <script>
         const form = document.getElementById('add-item-form');
 
-        // Attach a submit event listener to the form
         form.addEventListener('submit', (event) => {
-            // Prevent the default form submission behavior
             event.preventDefault();
-
-            // Get the form data
             const formData = new FormData(form);
 
             console.log(formData);
@@ -131,7 +127,7 @@ if (!isset($_SESSION['isLoggedIn'])) {
             });
 
             fetch(request)
-                .then(response => response.text())
+                .then(response => response.json())
                 .then(data => {
                     console.log(data);
                     document.getElementById("error-container").innerHTML = data.message;
@@ -140,18 +136,13 @@ if (!isset($_SESSION['isLoggedIn'])) {
         });
 
         document.getElementById('add-property-button').addEventListener('click', function() {
-            // Get the last item property
             var lastProperty = document.querySelector('.item-property:last-child');
-
-            // Clone the last item property
+            // clone the last item property
             var newProperty = lastProperty.cloneNode(true);
-
-            // Clear the values of the new item property
+            // clear the values of the new item property
             newProperty.querySelectorAll('input, select').forEach(function(input) {
                 input.value = '';
             });
-
-            // Append the new item property
             document.getElementById('item-properties').appendChild(newProperty);
         });
     </script>

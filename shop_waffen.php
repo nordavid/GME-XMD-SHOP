@@ -1,6 +1,7 @@
 <?php
 require_once("./php/check_login_status.php");
-$_SESSION['shopEntId'] = 1;
+require_once("./php/constants.php");
+$_SESSION['shopEntId'] = WEAPON_SHOP;
 ?>
 
 <!DOCTYPE html>
@@ -37,63 +38,103 @@ $_SESSION['shopEntId'] = 1;
         }
     </style>
     <script src="./js/script.js"></script>
+    <script src="./js/apiRequests.js"></script>
     <script src="./js/shop.js"></script>
     <script>
         window.onload = () => {
-            loadItems(<?php echo $_SESSION['playerEntId']; ?>, "sell-container", "Weapon", "sell")
-            loadItems(<?php echo $_SESSION['shopEntId']; ?>, "buy-container", "Weapon", "buy")
+            loadShop();
         }
 
-        function addBuyFormListeners() {
-            const buyForms = document.querySelectorAll(".buy-form");
-            buyForms.forEach((form) => {
-                form.addEventListener("submit", (event) => {
-                    event.preventDefault();
-                    const formData = new FormData(form);
-
-                    console.log(formData);
-
-                    fetch(`./php/api.php/shop/item/buy`, {
-                            method: "POST",
-                            body: formData,
-                        })
-                        .then((response) => response.text())
-                        .then((data) => {
-                            console.log(data);
-                            if (!data.error) {
-                                loadItems(<?php echo $_SESSION['playerEntId']; ?>, "sell-container", "Weapon", "sell")
-                                loadItems(<?php echo $_SESSION['shopEntId']; ?>, "buy-container", "Weapon", "buy")
-                            }
-                        })
-                        .catch((error) => console.error(error));
-                });
-            });
+        function loadShop() {
+            loadShopItems(<?php echo $_SESSION['playerEntId']; ?>, "sell-container", "Weapon", "sell")
+            loadShopItems(<?php echo $_SESSION['shopEntId']; ?>, "buy-container", "Weapon", "buy")
+            loadBalance(<?php echo $_SESSION['playerId']; ?>);
         }
 
-        function addSellFormListeneres() {
-            const sellForms = document.querySelectorAll(".sell-form");
-            sellForms.forEach((form) => {
-                form.addEventListener("submit", (event) => {
-                    event.preventDefault();
-                    const formData = new FormData(form);
+        function initialisieren() {
+            // verlinke auf die anderen Händler
+            const merchant2 = document.querySelector("#merchant_2");
+            const merchant2Content = merchant2.contentDocument;
+            const merchant2Shape = merchant2Content.querySelector(".cls-3");
 
-                    console.log(formData);
+            const merchant3 = document.querySelector("#merchant_3");
+            const merchant3Content = merchant3.contentDocument;
+            const merchant3Shape = merchant3Content.querySelector(".cls-3");
 
-                    fetch(`./php/api.php/shop/item/sell`, {
-                            method: "POST",
-                            body: formData,
-                        })
-                        .then((response) => response.text())
-                        .then((data) => {
-                            console.log(data);
-                            if (!data.error) {
-                                loadItems(<?php echo $_SESSION['playerEntId']; ?>, "sell-container", "Weapon", "sell")
-                                loadItems(<?php echo $_SESSION['shopEntId']; ?>, "buy-container", "Weapon", "buy")
-                            }
-                        })
-                        .catch((error) => console.error(error));
-                });
+            merchant2Shape.addEventListener("click", () => {
+                window.location = "shop_ruestung.php";
             });
+            merchant3Shape.addEventListener("click", () => {
+                window.location = "shop_schiffe.php";
+            });
+
+            let isOpen = false;
+
+            // füge Funktion hinzu, um Itemkarten aufzuklappen
+            // verhindere, dass gleichzeitig Kaufen und Verkaufen Karten umgedreht sind
+            let itemcards = document.querySelectorAll(".itemkarte");
+            for (let itemkarte of itemcards) {
+                itemkarte.addEventListener("click", () => {
+                    if (isOpen === false) {
+                        isOpen = setItemcardEigenschaften(itemkarte);
+                    }
+                });
+
+                // füge Funktion hinzu, um Itemkarten zuzuklappen
+                // verhindere Bubbling -> andernfalls wird die Karte gleich wieder aufgeklappt
+                let resetButton = itemkarte.querySelector(".resetKarte");
+                resetButton.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    isOpen = resetItemcardEigenschaften(itemkarte);
+                });
+            }
+
+            const shopToggleButtonKaufen = document.querySelector(".shopToggleButton");
+            const shopToggleButtonVerkaufen = shopToggleButtonKaufen.nextElementSibling;
+            const kaufenContainer = document.querySelector(".kaufen");
+            const verkaufenContainer = document.querySelector(".verkaufen");
+            // zeige gleichen Status des Feldes an bei Reload
+            if (window.localStorage.getItem("state") === "kaufenToggled") {
+                toggleKaufen(
+                    kaufenContainer,
+                    verkaufenContainer,
+                    shopToggleButtonKaufen,
+                    shopToggleButtonVerkaufen,
+                    breakpoint
+                );
+            } else if (window.localStorage.getItem("state") === "verkaufenToggled") {
+                toggleKaufen(
+                    verkaufenContainer,
+                    kaufenContainer,
+                    shopToggleButtonVerkaufen,
+                    shopToggleButtonKaufen,
+                    breakpoint
+                );
+            }
+
+            // zeige (in Mobilversion) jeweils den Kaufen oder Verkaufen-Reiter an
+            shopToggleButtonKaufen.addEventListener("click", () => {
+                toggleKaufen(
+                    kaufenContainer,
+                    verkaufenContainer,
+                    shopToggleButtonKaufen,
+                    shopToggleButtonVerkaufen,
+                    breakpoint
+                );
+                window.localStorage.setItem("state", "kaufenToggled");
+            });
+            shopToggleButtonVerkaufen.addEventListener("click", () => {
+                toggleKaufen(
+                    verkaufenContainer,
+                    kaufenContainer,
+                    shopToggleButtonVerkaufen,
+                    shopToggleButtonKaufen,
+                    breakpoint
+                );
+                window.localStorage.setItem("state", "verkaufenToggled");
+            });
+
+            addBurgerMenu();
         }
     </script>
 </head>
@@ -114,7 +155,7 @@ $_SESSION['shopEntId'] = 1;
             <figure class="figure_merchant">
                 <object type="image/svg+xml" data="img/merchant_3.svg" class="merchant_img" id="merchant_3"></object>
             </figure>
-            <p class="spruch">Du hast xx Erkies. Was willst du?</p>
+            <p class="spruch"><span>Du hast <span id="balance">0</span> Erkies. Was willst du?</span></p>
         </section>
 
         <!-- das ist ein Button, weil er in der Mobilansicht zum togglen da ist -->

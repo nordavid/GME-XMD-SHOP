@@ -1,34 +1,16 @@
-function loadPlayerData(playerId) {
-    fetch(`./php/api.php/account/player?id=${playerId}`)
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            if (!data.error) {
-                document.getElementById("player-username").innerText = data.payload.username;
-                document.getElementById("player-balance").innerText =
-                    data.payload.balance + " Erkis";
-            }
-        })
-        .catch((error) => console.error("Error: ", error));
+async function loadInventoryItems(entityId) {
+    const itemInv = document.getElementById("item-inventory");
+    const items = await getItemsForEntity(entityId);
+
+    for (const item of items) {
+        const itemProps = await getItemProperties(item.id);
+        addItemToInvContainer(itemInv, item, itemProps);
+    }
+
+    initialisieren();
 }
 
-function loadItems(entityId) {
-    fetch(`./php/api.php/entity/items?id=${entityId}`)
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            if (!data.error) {
-                const itemInv = document.getElementById("item-inventory");
-                data.payload.forEach((item) => {
-                    addItemToInvContainer(itemInv, item);
-                });
-                initialisieren();
-            }
-        })
-        .catch((error) => console.error("Error: ", error));
-}
-
-function addItemToInvContainer(container, item) {
+function addItemToInvContainer(container, item, itemProps) {
     const itemEl = `
             <section class="itemkarte_inventar itemkarte">
             <div class="itemAmount">${item.amount}</div>
@@ -43,16 +25,16 @@ function addItemToInvContainer(container, item) {
                         <th>Seltenheit</th>
                         <td>${item.rarity}</td>
                     </tr>
+                    ${itemProps
+                        .map(
+                            (itemProp) => `
                     <tr>
-                        <th>Rüstung</th>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <th>Eigenschaften</th>
-                        <td>+500 Charisma, +300 Intelligenz</td>
-                    </tr>
+                        <th>${itemProp.name}</th>
+                        <td>${itemProp.value}</td>
+                    </tr>`
+                        )
+                        .join("")}
                 </table>
-                <p class="buff">kurzer Statuseffekt</p>
                 <form action="" method="">
                     <button class="resetKarte" type="button">zurück</button>
                 </form>

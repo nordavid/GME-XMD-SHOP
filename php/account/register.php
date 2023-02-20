@@ -47,7 +47,7 @@ function registerHandler($username, $email, $password, $startitems)
         $playerId = $conn->lastInsertId();
 
         if ($startitems == "true") {
-            givePlayerRandomItems($entityId, 3);
+            givePlayerRandomItems($entityId, START_ITEM_AMOUNT);
         }
 
         $_SESSION['isLoggedIn'] = true;
@@ -73,11 +73,13 @@ function givePlayerRandomItems($entityId, $numOfItems)
         die(errorMsg($e->getMessage()));
     }
 
+    $amount = 1;
     for ($i = 0; $i < $numOfItems; $i++) {
         try {
-            $stmt = $conn->prepare("INSERT INTO inventory (entity_id, item_id) VALUES (:entityId, :itemId)");
+            $stmt = $conn->prepare("INSERT INTO inventory (entity_id, item_id, amount) VALUES (:entityId, :itemId, :amount)");
             $stmt->bindParam(":entityId", $entityId, PDO::PARAM_INT);
             $stmt->bindParam(":itemId", $result[$i]['id'], PDO::PARAM_INT);
+            $stmt->bindParam(":amount", $amount, PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
             die(errorMsg($e->getMessage()));

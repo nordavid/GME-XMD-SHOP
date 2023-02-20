@@ -107,13 +107,13 @@ if (isset($_GET['redirect'], $_SESSION['isLoggedIn'])) {
             });
 
             fetch(request)
-                .then((response) => response.text())
+                .then((response) => response.json())
                 .then((data) => {
                     console.log(data);
                     if (!data.error) {
                         redirect();
                     } else {
-                        alert("Fehler");
+                        alert("Fehler: " + data.message);
                     }
                 })
                 .catch((error) => console.error("Error: ", error));
@@ -138,7 +138,7 @@ if (isset($_GET['redirect'], $_SESSION['isLoggedIn'])) {
                     if (!data.error) {
                         redirect();
                     } else {
-                        alert("Fehler");
+                        alert("Fehler: " + data.message);
                     }
                 })
                 .catch((error) => console.error("Error: ", error));
