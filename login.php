@@ -132,7 +132,7 @@ if (isset($_GET['redirect'], $_SESSION['isLoggedIn'])) {
             });
 
             fetch(request)
-                .then((response) => response.text())
+                .then((response) => response.json())
                 .then((data) => {
                     console.log(data);
                     if (!data.error) {
