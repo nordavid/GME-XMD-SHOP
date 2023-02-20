@@ -25,28 +25,12 @@ require_once("./php/check_login_status.php");
             color: var(--farbe_akzent_primary);
         }
     </style>
-    <script src="js/script.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/inventar.js"></script>
     <script>
-        window.addEventListener("load", initialisieren);
-
-        function initialisieren() {
-            // füge Funktion hinzu, um Itemkarten aufzuklappen
-            let itemcards = document.querySelectorAll(".itemkarte");
-            for (let itemkarte of itemcards) {
-                itemkarte.addEventListener("click", () => {
-                    setInventorycardEigenschaften(itemkarte, breakpoint);
-                });
-
-                // füge Funktion hinzu, um Itemkarten zuzuklappen
-                // verhindere Bubbling -> andernfalls wird die Karte gleich wieder aufgeklappt
-                let resetButton = itemkarte.querySelector(".resetKarte");
-                resetButton.addEventListener("click", (e) => {
-                    e.stopPropagation();
-                    resetItemcardEigenschaften(itemkarte);
-                });
-            }
-
-            addBurgerMenu();
+        window.onload = () => {
+            loadPlayerData(<?php echo $_SESSION['playerId']; ?>)
+            loadItems(<?php echo $_SESSION['playerEntId']; ?>)
         }
     </script>
 </head>
@@ -109,66 +93,6 @@ require_once("./php/check_login_status.php");
             <p id="player-balance">xxx Erkies</p>
         </article>
     </main>
-
-    <script>
-        fetch(`./php/api.php/account/player?id=<?php echo $_SESSION['playerId'] ?>`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                if (!data.error) {
-                    document.getElementById("player-username").innerText = data.payload.username;
-                    document.getElementById("player-balance").innerText = data.payload.balance + " Erkis";
-                }
-            })
-            .catch(error => console.error("Error: ", error));
-
-        fetch(`./php/api.php/entity/items?id=<?php echo $_SESSION['playerEntId'] ?>`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                if (!data.error) {
-                    const itemInv = document.getElementById("item-inventory");
-                    data.payload.forEach(item => {
-                        addItemToInvContainer(itemInv, item);
-                    });
-                }
-            })
-            .catch(error => console.error("Error: ", error));
-
-        function addItemToInvContainer(container, item) {
-            const itemEl = `
-            <section class="itemkarte_inventar itemkarte">
-                <img class="itemBild" src="img/fishspaceship.jpg" alt="Name_item" />
-                <p class="itemName">${item.name}</p>
-                <p class="itemPreis">${item.cost}</p>
-                <p class="itemBeschreibung">
-                    Mit dem ET-Funkel-Fingerhut kannst du nicht nur nach Hause telefonieren,
-                    sondern hast Kontakt zur gesamten Galaxis. Der Spaß für extrem reife und
-                    intergalaktische Telefonstreiche ist garantiert.
-                </p>
-                <table>
-                    <tr>
-                        <th>Seltenheit</th>
-                        <td>legendär</td>
-                    </tr>
-                    <tr>
-                        <th>Rüstung</th>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <th>Eigenschaften</th>
-                        <td>+500 Charisma, +300 Intelligenz</td>
-                    </tr>
-                </table>
-                <p class="buff">kurzer Statuseffekt</p>
-                <form action="" method="">
-                    <button class="resetKarte" type="button">zurück</button>
-                </form>
-            </section>
-            `;
-            container.insertAdjacentHTML('beforeEnd', itemEl);
-        }
-    </script>
 </body>
 
 </html>
