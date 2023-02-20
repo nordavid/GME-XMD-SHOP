@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2023 at 10:30 PM
+-- Generation Time: Feb 21, 2023 at 12:32 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -64,10 +64,19 @@ CREATE TABLE `inventory` (
 INSERT INTO `inventory` (`entity_id`, `item_id`, `amount`, `last_trade`) VALUES
 (1, 3, 2, '2023-02-20 21:18:00'),
 (1, 4, 2, '2023-02-20 21:18:01'),
+(1, 13, 0, '2023-02-20 22:26:41'),
+(1, 14, 0, '2023-02-20 22:27:20'),
+(1, 15, 0, '2023-02-20 22:28:07'),
 (2, 5, 1, '2023-02-20 21:17:54'),
 (2, 6, 0, '2023-02-20 21:18:12'),
+(2, 10, 0, '2023-02-20 22:15:02'),
+(2, 11, 0, '2023-02-20 22:15:46'),
+(2, 12, 0, '2023-02-20 22:17:12'),
 (3, 1, 0, '2023-02-20 20:57:09'),
 (3, 2, 1, '2023-02-20 21:17:57'),
+(3, 7, 0, '2023-02-20 22:10:22'),
+(3, 8, 0, '2023-02-20 22:10:54'),
+(3, 9, 0, '2023-02-20 22:12:40'),
 (5, 1, 1, '2023-02-20 21:05:42'),
 (5, 2, 1, '2023-02-20 21:06:48'),
 (5, 5, 1, '2023-02-20 21:14:55'),
@@ -94,12 +103,21 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`id`, `name`, `category`, `rarity`, `description`, `cost`, `image`) VALUES
-(1, 'Raumschiff One', 'Spaceship', 'Rare', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 150, 'img_item/item_1.png'),
-(2, 'Raumschiff Two', 'Spaceship', 'Common', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 50, 'img_item/item_2.png'),
+(1, 'Spaceship One', 'Spaceship', 'Rare', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 150, 'img_item/item_1.png'),
+(2, 'Spaceship Two', 'Spaceship', 'Common', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 50, 'img_item/item_2.png'),
 (3, 'Weapon One', 'Weapon', 'Legendary', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 200, 'img_item/item_3.png'),
 (4, 'Weapon Two', 'Weapon', 'Rare', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 100, 'img_item/item_4.png'),
 (5, 'Shield One', 'Armor', 'Rare', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 250, 'img_item/item_5.png'),
-(6, 'Shield Two', 'Armor', 'Legendary', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 500, 'img_item/item_6.png');
+(6, 'Shield Two', 'Armor', 'Legendary', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 500, 'img_item/item_6.png'),
+(7, 'Spaceship Three', 'Spaceship', 'Rare', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 250, 'img_item/item_7.png'),
+(8, 'Spaceship Four', 'Spaceship', 'Legendary', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 1000, 'img_item/item_8.png'),
+(9, 'Spaceship Five', 'Spaceship', 'Rare', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 450, 'img_item/item_9.png'),
+(10, 'Shield Three', 'Armor', 'Legendary', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 1500, 'img_item/item_10.png'),
+(11, 'Shield Four', 'Armor', 'Rare', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 400, 'img_item/item_11.png'),
+(12, 'Shield Five', 'Armor', 'Legendary', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 1300, 'img_item/item_12.png'),
+(13, 'Weapon Three', 'Weapon', 'Rare', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 200, 'img_item/item_13.png'),
+(14, 'Weapon Four', 'Weapon', 'Common', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 100, 'img_item/item_14.png'),
+(15, 'Weapon Five', 'Weapon', 'Legendary', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 2000, 'img_item/item_15.png');
 
 -- --------------------------------------------------------
 
@@ -120,17 +138,33 @@ CREATE TABLE `item_property` (
 --
 
 INSERT INTO `item_property` (`item_id`, `name`, `property_type`, `stat_type`, `value`) VALUES
+(11, 'Blendung', 'Buff', 'Damage', 50),
+(12, 'Dornen', 'Buff', 'Damage', 500),
 (1, 'Geschwindigkeit', 'Playerstats', 'Speed', 20),
 (2, 'Geschwindigkeit', 'Playerstats', 'Speed', 10),
+(7, 'Geschwindigkeit', 'Playerstats', 'Speed', 100),
+(8, 'Geschwindigkeit', 'Playerstats', 'Speed', 100),
+(9, 'Geschwindigkeit', 'Playerstats', 'Speed', 200),
 (5, 'HP', 'Playerstats', 'Hp', 200),
 (6, 'HP', 'Buff', 'Hp', 200),
+(10, 'HP', 'Playerstats', 'Hp', 1000),
 (1, 'Hyperspeed', 'Buff', 'Speed', 150),
 (4, 'Laser Aim', 'Buff', 'Skill', 100),
 (5, 'Rüstung', 'Playerstats', 'Armor', 50),
 (6, 'Rüstung', 'Playerstats', 'Armor', 400),
+(10, 'Rüstung', 'Playerstats', 'Armor', 1000),
+(11, 'Rüstung', 'Playerstats', 'Armor', 1000),
+(12, 'Rüstung', 'Playerstats', 'Armor', 50),
 (3, 'Schaden', 'Playerstats', 'Damage', 220),
 (4, 'Schaden', 'Playerstats', 'Damage', 160),
+(13, 'Schaden', 'Playerstats', 'Damage', 150),
+(14, 'Schaden', 'Playerstats', 'Damage', 100),
+(15, 'Schaden', 'Playerstats', 'Damage', 500),
+(8, 'Sharky', 'Buff', 'Strength', 50),
+(15, 'Speedtronic', 'Buff', 'Speed', 100),
 (2, 'Star Boost', 'Buff', 'Speed', 200),
+(9, 'Tarnung', 'Buff', 'Intelligence', 1),
+(14, 'Taunt', 'Buff', 'Charism', 50),
 (3, 'Ultra Knockback', 'Buff', 'Damage', 100);
 
 -- --------------------------------------------------------
@@ -240,7 +274,7 @@ ALTER TABLE `entity`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `player`

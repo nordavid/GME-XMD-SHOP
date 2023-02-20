@@ -163,73 +163,9 @@ $_SESSION['shopEntId'] = WEAPON_SHOP;
         <button class="shopToggleButton" type="button">verkaufen</button>
 
         <section id="buy-container" class="kaufen">
-
-
-            <!-- bitte Adresse und Name von jeweiligem item einfügen 
-                später soll hier evtl. srcset rein für die responsiven Grafiken, dafür müssen wir aber
-                erst die endgültigen Formate/Größen haben -->
-            <section class="itemkarte">
-                <img class="itemBild" src="img/item.png" alt="Name_item">
-                <p class="itemName">Der allerechteste ET-Funkel-Fingerhut</p>
-                <p class="itemPreis">3000 Erkies</p>
-                <p class="itemBeschreibung">Mit dem ET-Funkel-Fingerhut kannst du nicht nur nach Hause telefonieren, sondern hast Kontakt zur gesamten Galaxis. Der Spaß für extrem reife und intergalaktische Telefonstreiche ist garantiert.</p>
-                <table>
-                    <tr>
-                        <th>Seltenheit</th>
-                        <td>legendär</td>
-                    </tr>
-                    <tr>
-                        <th>Rüstung</th>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <th>Eigenschaften</th>
-                        <td>+500 Charisma, +300 Intelligenz</td>
-                    </tr>
-                </table>
-                <p class="buff">kurzer Statuseffekt</p>
-                <form>
-                    <!-- hier schon min/max in Abhängigkeit vom Stock des Händlers? -->
-                    <button class="resetKarte" type="button">zurück</button>
-                    <input type="number" name="anzahl_kaufen" id="anzahl_kaufen">
-                    <button type="submit">kaufen</button>
-                </form>
-            </section>
         </section>
 
         <section id="sell-container" class="verkaufen">
-            <!-- bitte Adresse und Name von jeweiligem item einfügen 
-                später soll hier evtl. srcset rein für die responsiven Grafiken, dafür müssen wir aber
-                erst die endgültigen Formate/Größen haben 
-                wenn das Item nicht verkaufbar ist bei dem jeweiligen Händler, bitte class="itemkarte_nichtverfuegbar"
-                damit wir die ausgrauen können -->
-            <section class="itemkarte">
-                <img class="itemBild" src="img/item.png" alt="Name_item">
-                <p class="itemName">Der allerechteste ET-Funkel-Fingerhut</p>
-                <p class="itemPreis">3000 Erkies</p>
-                <p class="itemBeschreibung">Mit dem ET-Funkel-Fingerhut kannst du nicht nur nach Hause telefonieren, sondern hast Kontakt zur gesamten Galaxis. Der Spaß für extrem reife und intergalaktische Telefonstreiche ist garantiert.</p>
-                <table>
-                    <tr>
-                        <th>Seltenheit</th>
-                        <td>legendär</td>
-                    </tr>
-                    <tr>
-                        <th>Rüstung</th>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <th>Eigenschaften</th>
-                        <td>+500 Charisma, +300 Intelligenz</td>
-                    </tr>
-                </table>
-                <p class="buff">kurzer Statuseffekt</p>
-                <form>
-                    <!-- hier schon min/max in Abhängigkeit vom Stock des Händlers? -->
-                    <button class="resetKarte" type="button">abbrechen</button>
-                    <input type="number" name="anzahl_kaufen" id="anzahl_kaufen">
-                    <button type="submit">verkaufen</button>
-                </form>
-            </section>
         </section>
     </main>
 </body>
