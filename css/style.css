@@ -38,16 +38,7 @@ body {
     --fliesstext_font: "Source_Regular", Arial, Helvetica, sans-serif;
     --auszeichnungen_font: "Source_Bold", "Arial bold", Helvetica, sans-serif;
 
-    /* background-image: var(--verlauf_hintergrund); */
-    background-color: hsla(223, 100%, 10%, 1);
-    background-image: radial-gradient(at 1% 88%, hsla(263, 44%, 38%, 1) 0px, transparent 50%),
-        radial-gradient(at 66% 67%, hsla(263, 44%, 38%, 1) 0px, transparent 50%),
-        radial-gradient(at 59% 14%, hsla(263, 45%, 38%, 1) 0px, transparent 50%),
-        radial-gradient(at 41% 99%, hsla(24, 100%, 60%, 1) 0px, transparent 50%),
-        radial-gradient(at 13% 59%, hsla(263, 44%, 38%, 1) 0px, transparent 50%),
-        radial-gradient(at 5% 4%, hsla(33, 100%, 59%, 0.81) 0px, transparent 50%),
-        radial-gradient(at 81% 20%, hsla(24, 100%, 60%, 0.8) 0px, transparent 50%);
-    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.1);
+    background-image: var(--verlauf_hintergrund);
 }
 
 #bodyIndex {
@@ -339,6 +330,27 @@ nav button {
 
     padding: 1vw;
     width: 100%;
+    position: relative;
+}
+
+.itemkarte .itemAmount {
+    background-color: #d2d1ff;
+    color: #000e33;
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 25px;
+    height: 25px;
+    font-family: var(--auszeichnungen_font);
+    padding-top: 1px;
+    border-radius: 100%;
+    text-align: center;
+}
+
+.itemkarte_nichtverfuegbar {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
 .itemkarte :is(.itemName, .itemPreis) {
@@ -367,6 +379,7 @@ nav button {
     width: 50vw;
     min-height: 60vh;
     padding: 3vw 5vw 3vw 3vw;
+    z-index: 2;
 }
 
 .itemkarte_aufgedeckt .itemName,
@@ -564,7 +577,7 @@ td {
     grid-template-columns: 2fr 3fr;
     position: absolute;
     border-radius: 0;
-    padding: 6vw 5vw 3vw 3vw;
+    padding: 7vw 5vw 3vw 3vw;
 }
 
 /* ändern, das sind die Einstellungen für Shop */
@@ -622,6 +635,7 @@ td {
 
 .user img {
     width: 100%;
+    border-radius: 100%;
 }
 
 @media only screen and (max-width: 1200px) and (orientation: portrait) {

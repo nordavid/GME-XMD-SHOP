@@ -142,7 +142,7 @@ function getInvAmount($entityId, $itemId)
         if ($stmt->rowCount() > 0) {
             return $stmt->fetch(PDO::FETCH_ASSOC)['amount'];
         } else {
-            throw new PDOException("Item nicht im Inventar");
+            throw new PDOException("Item nicht im Inventar [EntID: $entityId, ItemID: $itemId]");
         }
     } catch (PDOException $e) {
         echo errorMsg($e->getMessage());

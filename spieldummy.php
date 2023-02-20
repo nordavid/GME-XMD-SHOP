@@ -19,7 +19,7 @@ require_once("./php/check_login_status.php");
             color: var(--farbe_akzent_primary);
         }
     </style>
-    <script src="js/script.js"></script>
+    <script src="./js/script.js"></script>
     <script>
         window.addEventListener('load', initialisieren);
 

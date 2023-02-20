@@ -47,7 +47,7 @@ require_once("./php/check_login_status.php");
 
         }
     </style>
-    <script src="js/script.js"></script>
+    <script src="./js/script.js"></script>
     <script>
         window.addEventListener('load', initialisieren);
 

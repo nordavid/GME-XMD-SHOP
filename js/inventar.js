@@ -31,9 +31,10 @@ function loadItems(entityId) {
 function addItemToInvContainer(container, item) {
     const itemEl = `
             <section class="itemkarte_inventar itemkarte">
-                <img class="itemBild" src="img/fishspaceship.jpg" alt="Name_item" />
+            <div class="itemAmount">${item.amount}</div>
+                <img class="itemBild" src="./uploads/${item.image}" alt="Name_item" />
                 <p class="itemName">${item.name}</p>
-                <p class="itemPreis">${item.cost}</p>
+                <p class="itemPreis">${item.cost} ERKIS</p>
                 <p class="itemBeschreibung">
                     ${item.description}
                 </p>

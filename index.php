@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/style.css" />
     <style>
     </style>
-    <script src="js/script.js"></script>
+    <script src="./js/script.js"></script>
     <script>
         window.addEventListener('load', initialisieren);
 
