@@ -16,7 +16,7 @@ function itemBuyHandler($itemId, $amount)
     if ($playerBalance >= $itemCost * $amount) {
         // Enough balance to buy
         try {
-            transferItems($playerEntId, $shopEntId, $itemId, $amount, TransferType::ToPlayer);
+            transferItems($shopEntId, $playerEntId, $itemId, $amount, TransferType::ToPlayer);
         } catch (Exception $e) {
             die(errorMsg($e->getMessage()));
         }

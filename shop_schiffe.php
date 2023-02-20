@@ -36,7 +36,7 @@ $_SESSION['shopEntId'] = 3;
             transform: scale(2.2);
         }
     </style>
-    <script src="js/script.js"></script>
+    <script src="./js/script.js"></script>
     <script>
         window.addEventListener('load', initialisieren);
 
