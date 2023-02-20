@@ -20,8 +20,8 @@ function itemBuyHandler($itemId, $amount)
         } catch (Exception $e) {
             die(errorMsg($e->getMessage()));
         }
+        updateBalance($playerId, - ($itemCost * $amount));
     } else {
         die(errorMsg("Nicht genug Erkies zum Kaufen"));
     }
-    updateBalance($playerId, - ($itemCost * $amount));
 }

@@ -37,6 +37,18 @@ function itemAddHandler($itemname, $category, $rarity, $description, $cost, $pro
     // Upload image for item and update db entry
     uploadItemImg($insertedItemId);
 
+
+    // Add item to shop inventory
+    try {
+        $sql = "INSERT INTO inventory (entity_id, item_id) VALUES ((SELECT entity_id FROM shop WHERE category = :category), :itemId)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':category', $category, PDO::PARAM_STR);
+        $stmt->bindParam(':itemId', $insertedItemId, PDO::PARAM_INT);
+        $stmt->execute();
+    } catch (PDOException $e) {
+        die(errorMsg("Fehler bei dem Versuch Item dem Inventar hinzuzufügen: " . $e->getMessage()));
+    }
+
     exit(successMsg("Item erfolgreich hinzugefügt"));
 }
 
