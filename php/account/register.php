@@ -43,22 +43,20 @@ function registerHandler($username, $email, $password, $startitems)
         $stmt->bindParam(":username", $username, PDO::PARAM_STR);
         $stmt->bindParam(":password", $password, PDO::PARAM_STR);
         $stmt->bindParam(":email", $email, PDO::PARAM_STR);
-        echo "Startitems: " . $startitems;
-        if ($stmt->execute()) {
-            if ($startitems == "true") {
-                givePlayerRandomItems($entityId, 3);
-            }
+        $stmt->execute();
+        $playerId = $conn->lastInsertId();
 
-            $_SESSION['isLoggedIn'] = true;
-            $_SESSION['playerEntId'] = $entityId;
-            $_SESSION['playerId'] = $conn->lastInsertId();
-            $_SESSION['isAdmin'] = false;
-            exit(successMsg("Erfolgreich registriert"));
-        } else {
-            throw new PDOException("Fehler bei Registrierung");
+        if ($startitems == "true") {
+            givePlayerRandomItems($entityId, 3);
         }
+
+        $_SESSION['isLoggedIn'] = true;
+        $_SESSION['playerEntId'] = $entityId;
+        $_SESSION['playerId'] = $playerId;
+        $_SESSION['isAdmin'] = false;
+        exit(successMsg("Erfolgreich registriert"));
     } catch (PDOException $e) {
-        die(errorMsg($e->getMessage()));
+        die(errorMsg("Fehler bei Registrierung. " . $e->getMessage()));
     }
 }
 
