@@ -1,12 +1,11 @@
 <?php
-ini_set('session.cookie_samesite', 'Strict');
 session_start();
 require_once('./constants.php');
 require_once('./util/json_output.php');
 
 $servername = "localhost";
-$username = "admin";
-$password = "admin";
+$username = "root";
+$password = "";
 $dbname = "db_game_shop";
 
 try {
