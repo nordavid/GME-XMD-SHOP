@@ -3,20 +3,27 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta charset="utf-8"/>
-        <title>Spielname</title>
+        <title>Spiel</title>
         <link rel="stylesheet" href="css/style.css"/>
-        <style>                   
+        <style>
+            nav a:nth-of-type(2) {
+                color: var(--farbe_akzent_primary);
+            }
+
+            nav a:nth-of-type(2):visited {
+                color: var(--farbe_akzent_primary);
+            }        
         </style>
         <script src="js/script.js"></script>
         <script>
             window.addEventListener('load', initialisieren);
             
             function initialisieren() {
-                addBurgerMenu();  
-            }        
+                addBurgerMenu();
+            }
         </script>
     </head>
-    <body id="bodyIndex">
+    <body>
         <header>
             <nav>
                 <a href="index.html"><img src="img/logo_dummy.svg" alt="Logo"></a>      
@@ -28,17 +35,8 @@
             </nav>
         </header>
         
-        <main id="mainIndex">
-            <!--<picture>
-                <source media="(orientation: portrait)" srcset="img/bg_portrait.jpg">
-                <img src="img/bg_landscape.jpg" alt="Landing Page Background">
-            </picture> -->
-            <h1>fette Überschrift für das Spiel</h1>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. 
-            Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
-            Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
-            <a class="spielLink" href="login.html">Spiel</a>
-            <a class="spielLink" href="login.html">Shop</a>
+        <main id="mainSpieldummy">
+            <h1>Hier könnte Ihre Werbung stehen!</h1>
         </main>
     </body>
 </html>    
