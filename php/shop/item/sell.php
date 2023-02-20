@@ -18,4 +18,5 @@ function itemSellHandler($itemId, $amount)
         die(errorMsg($e->getMessage()));
     }
     updateBalance($playerId, + ($itemCost * $amount));
+    echo successMsg("Item(s) erfolgreich verkauft");
 }
