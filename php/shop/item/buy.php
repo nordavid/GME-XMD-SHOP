@@ -21,6 +21,7 @@ function itemBuyHandler($itemId, $amount)
             die(errorMsg($e->getMessage()));
         }
         updateBalance($playerId, - ($itemCost * $amount));
+        echo successMsg("Item(s) erfolgreich gekauft");
     } else {
         die(errorMsg("Nicht genug Erkies zum Kaufen"));
     }

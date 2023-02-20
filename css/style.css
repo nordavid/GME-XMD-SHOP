@@ -680,7 +680,6 @@ td {
 
 .loginContainer {
     width: 30rem;
-    height: 40rem;
     align-self: center;
 
     display: grid;
@@ -727,8 +726,8 @@ td {
     grid-row: 2 / span 1;
     display: flex;
     flex-wrap: wrap;
-    align-items: start;
-    padding: 20% 2rem 20% 2rem;
+    align-items: center;
+    padding: 7% 2rem 5% 2rem;
     justify-content: center;
     width: 100%;
 
