@@ -10,7 +10,7 @@ function playerInfoHandler($id)
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($result) {
             echo returnData($result);
-        } else errorMsg("Spieler nicht gefunden", 1);
+        } else echo errorMsg("Spieler nicht gefunden");
     } catch (PDOException $e) {
         echo errorMsg($e->getMessage());
     }

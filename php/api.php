@@ -6,7 +6,7 @@ $endpoints = [
     'account/register' => ['handler' => 'registerHandler', 'method' => 'POST', 'params' => ['username', 'email', 'password', 'startitems']],
     'account/login' => ['handler' => 'loginHandler', 'method' => 'POST', 'params' => ['username', 'password']],
     'account/logout' => ['handler' => 'logoutHandler', 'method' => 'POST', 'params' => []],
-    'account/player' => ['handler' => 'playerInfoHandler', 'method' => 'POST', 'params' => ['id']],
+    'account/player' => ['handler' => 'playerInfoHandler', 'method' => 'GET', 'params' => ['id']],
     'entity/items' => ['handler' => 'entityItemsHandler', 'method' => 'GET', 'params' => ['id']],
     'shop/item' => ['handler' => 'itemInfoHandler', 'method' => 'GET', 'params' => ['id']],
     'shop/item/properties' => ['handler' => 'itemPropsHandler', 'method' => 'GET', 'params' => ['id']],
