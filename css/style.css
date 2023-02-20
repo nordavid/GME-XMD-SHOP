@@ -347,6 +347,10 @@ nav button {
     text-align: center;
 }
 
+.itemkarte_aufgedeckt .itemAmount {
+    display: none;
+}
+
 .itemkarte_nichtverfuegbar {
     pointer-events: none;
     cursor: not-allowed;
@@ -425,7 +429,11 @@ nav button {
 .itemkarte_aufgedeckt table th,
 td {
     text-align: left;
-    padding: 0.3rem;
+    padding: 0.3rem 0;
+}
+
+.itemkarte_aufgedeckt table th {
+    padding-right: 0.5rem;
 }
 
 .itemkarte_aufgedeckt button {
