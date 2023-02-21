@@ -9,7 +9,7 @@ $password = "";
 $dbname = "db_game_shop";
 
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8mb4", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo errorMsg("Fehler bei Datenbankverbindung: " . $e->getMessage());
